@@ -1,38 +1,33 @@
+'use strict'
+
 import { Schema, model } from "mongoose"
 
-const roomSchema = Schema({
-    number:{
-        type: Number,
-        required: true
-    },
+const benefitsSchema = Schema({
     description: {
         type: String,
         required: true
     },
-    capacity: {
+    benefitName: {
         type: String,
         required: true
     },
-    type: {
-        type: String,
-        required: true
-    },
-    price:{
+    quantity: {
         type: Number,
         required: true
     },
-    status:{
+    startDate: {
+        type: Number,
+        required: true
+    },
+    expiryDate: {
         type: String,
-        enum: ['DISPONIBLE', 'NO DISPONIBLE', 'EN MANTENIMIENTO'],
         required: true
-    }, 
-    
-    hotelid:{
+    },
+    idPayments: {
         type: Schema.ObjectId,
-        ref: 'hotel',
+        ref: 'Payments',
         required: true
-        
     }
 })
 
-export default model('room', roomSchema)
+export default model('benefits', benefitsSchema)

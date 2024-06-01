@@ -2,7 +2,7 @@
 
 import jwt from 'jsonwebtoken'
 
-const secretKey = '@LlaveSuperSecretaDeKinalTec@'
+const secretKey = '@LlaveSuperSecretaDeBugBusters@'
 
 export const generateJwt = async(payload)=>{
     try{

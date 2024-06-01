@@ -1,13 +1,13 @@
 {
-  "name": "hotelmanagement-kinaltec",
+  "name": "banksystem-nodejs",
   "version": "1.0.0",
-  "description": "Hotel Management Application developed by KinalTec",
+  "description": "Sistema Bancario",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js"
   },
-  "author": "KinalTec",
+  "author": "Bug Busters",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -16,11 +16,11 @@
     "express": "^4.19.2",
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.3.1",
+    "mongoose": "^8.4.0",
     "morgan": "^1.10.0"
-  }, 
+  },
   "devDependencies": {
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.2"
   },
   "type": "module"
 }
