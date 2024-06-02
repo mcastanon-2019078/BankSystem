@@ -1,4 +1,19 @@
-import {Schema, model} from 'mongoose'
+/**
+ * Represents a user in the system.
+ * @typedef {Object} User
+ * @property {string} name - The name of the user.
+ * @property {string} username - The username of the user.
+ * @property {string} email - The email of the user.
+ * @property {string} password - The password of the user.
+ * @property {string} DPI - The DPI (Documento Personal de Identificación) of the user.
+ * @property {string} address - The address of the user.
+ * @property {string} phone - The phone number of the user.
+ * @property {string} workname - The name of the user's workplace.
+ * @property {number} age - The age of the user.
+ * @property {string} role - The role of the user. Can be 'ADMIN' or 'CLIENT'.
+ */
+
+import { Schema, model } from 'mongoose'
 
 const userSchema = new Schema({
   name: {
@@ -49,4 +64,8 @@ const userSchema = new Schema({
     versionKey: false
 })
 
+/**
+ * Represents a User model.
+ * @module User
+ */
 export default model('User', userSchema)

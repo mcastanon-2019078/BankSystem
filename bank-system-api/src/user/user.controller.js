@@ -1,39 +1,72 @@
-import userModel from './user.model.js'
-import { createToken } from '../../utils/jwt.js'
 import { comparePassword, encryptPassword } from '../../utils/encrypt.js'
+import { createToken } from '../../utils/jwt.js'
+import { createAccount } from '../account/account.controller.js'
+import userModel from './user.model.js'
 
+/**
+ * Creates a new user.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - The response object containing the created user and account information.
+ */
 export const createUser = async (req, res) => {
   try {
     const data = req.body
     data.password = await encryptPassword(data.password)
     const user = new userModel(data)
     await user.save()
-    return res.status(200).send({ message: 'User created successfully', user })
+    const accountData = {
+      NoAccount:  Math.floor(Math.random() * 10000000000000),
+      balance: data.balance,
+      typeAccount: data.typeAccount,
+      owner: user._id
+    }
+    const {success, account, message} = await createAccount(accountData)
+    if(!success) return res.status(500).send({ message: message })
+    return res.status(200).send({ message: 'User created successfully! ' + message, user, account })
   } catch (error) {
-    return res.status(500).send({ message: 'Error creating user' })
+    return res.status(500).send({ message: 'Error creating user!', error })
   }
 }
 
+/**
+ * Retrieves a user by their ID.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - The response object containing the retrieved user.
+ */
 export const getUser = async (req, res) => {
   try {
     const user = await userModel.findById(req.params.id)
-    if (!user) return res.status(404).send({ message: 'Users not found' })
-    return res.status(200).send({ message: 'User found', user })
+    if (!user) return res.status(404).send({ message: 'User not found!' })
+    return res.status(200).send({ message: 'User found!', user })
   } catch (error) {
-    return res.status(500).send({ message: 'Error getting user' })
+    return res.status(500).send({ message: 'Error getting user!', error })
   }
 }
 
+/**
+ * Retrieves all users.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - The response object containing the retrieved users.
+ */
 export const getUsers = async (req, res) => {
   try {
     const user = await userModel.find({})
-    if (!user) return res.status(404).send({ message: 'User not found' })
+    if (!user) return res.status(404).send({ message: 'User not found!' })
     return res.status(200).send({ message: 'Users found', user })
   } catch (error) {
-    return res.status(500).send({ message: 'Error getting users' })
+    return res.status(500).send({ message: 'Error getting users!', error })
   }
 }
 
+/**
+ * Updates a user by their ID.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - The response object containing the updated user.
+ */
 export const updateUser = async (req, res) => {
   try {
     const user = await userModel.findByIdAndUpdate(
@@ -42,24 +75,35 @@ export const updateUser = async (req, res) => {
       { new: true }
     )
     if (!user)
-      return res.status(404).send({ message: 'User not found, not updated' })
-    return res.status(200).send({ message: 'User updated successfully', user })
+      return res.status(404).send({ message: 'User not found, not updated!' })
+    return res.status(200).send({ message: 'User updated successfully!', user })
   } catch (error) {
-    return res.status(500).send({ message: 'Error updating user' })
+    return res.status(500).send({ message: 'Error updating user!', error })
   }
 }
 
+/**
+ * Deletes a user by their ID.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - The response object containing the deleted user.
+ */
 export const deleteUser = async (req, res) => {
   try {
     const user = await userModel.findByIdAndDelete(req.params.id)
-    if (!user)
-      return res.status(404).send({ message: 'User not found, not deleted' })
-    return res.status(200).send({ message: 'User deleted successfully', user })
+    if (!user) return res.status(404).send({ message: 'User not found, not deleted!' })
+    return res.status(200).send({ message: 'User deleted successfully!', user })
   } catch (error) {
-    return res.status(500).send({ message: 'Error deleting user' })
+    return res.status(500).send({ message: 'Error deleting user!', error })
   }
 }
 
+/**
+ * Logs in a user.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - The response object containing the logged in user information and token.
+ */
 export const login = async (req, res) => {
   try {
     let user = await userModel.findOne({
@@ -75,12 +119,16 @@ export const login = async (req, res) => {
         token,
       })
     }
-    return res.status(404).send({ message: 'Invalid credentials' })
+    return res.status(404).send({ message: 'Invalid credentials!' })
   } catch (error) {
-    return res.status(500).send({ message: 'Error login' })
+    return res.status(500).send({ message: 'Error login!', error })
   }
 }
 
+/**
+ * Creates a default admin user if no admin user exists.
+ * @returns {void}
+ */
 export const defaultAdmin = async () => {
   try {
     const verifyUser = await userModel.find({})
@@ -99,8 +147,8 @@ export const defaultAdmin = async () => {
       role: 'ADMIN',
     })
     await user.save()
-    return console.log('first admin created successfully')
+    return console.log('First admin created successfully!')
   } catch (error) {
-    return console.log('error creating first admin')
+    return console.log('Error creating first admin!', error)
   }
 }

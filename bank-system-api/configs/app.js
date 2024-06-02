@@ -1,31 +1,44 @@
-import express from 'express'
+/**
+ * Express server configuration file.
+ * @module app
+ */
+
+import cookieParser from 'cookie-parser'
 import cors from 'cors'
+import { config } from 'dotenv'
+import express from 'express'
 import helmet from 'helmet'
 import morgan from 'morgan'
-import cookieParser from 'cookie-parser'
-import { config } from 'dotenv'
+import accountRoutes from '../src/account/account.routes.js'
 import userRoutes from '../src/user/user.routes.js'
 
-const app = express() //creamos el servidor
+const app = express() // Create the server
 config()
 const port = process.env.PORT || 3000
 
-//Configuramos el servidor express
+// Configure the express server
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
-//Aceptamos o denegamos las solicitudes de diferentes origenes(local, remoto)
+// Accept or deny requests from different origins (local, remote)
 app.use(cors())
 app.use(helmet())
 
-//Crear logs de solicitudes al servidor HTTP
+// Create logs of HTTP requests
 app.use(morgan('dev'))
 
-//Middleware que permite gestionar las cookies
+// Parse request cookies
 app.use(cookieParser())
 
+// API routes
 app.use(userRoutes)
+app.use(accountRoutes)
 
+/**
+ * Initializes the server and starts listening on the specified port.
+ * @function initServer
+ * @returns {void}
+ */
 export const initServer = () => {
-  app.listen(port, ()=> console.log(`Server HTTP running in port ${port}`))
+  app.listen(port, () => console.log(`Server HTTP running in port ${port}`))
 }
