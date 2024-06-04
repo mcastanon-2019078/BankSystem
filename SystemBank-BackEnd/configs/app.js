@@ -7,7 +7,7 @@ import cors from 'cors';
 const app = express();
 config();
 
-const port = process.env.PORT || 3200;
+const port = process.env.PORT || 3200
 
 // Import routes
 
@@ -32,20 +32,20 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan('dev'));
 
-app.use(userRoutes)
-app.use(accountRoutes);
-app.use(depositRoutes);
-app.use(transferRoutes);
-app.use(typeAccountRoutes);
-app.use(servicesRoutes);
-app.use(productRoutes);
-app.use(historyServices);
-app.use(productsH);
-app.use(historyTransfer);
-app.use(depositH);
-app.use(favorites);
-app.use(shopProduct);
-app.use(shopService);
+app.use('/user', userRoutes)
+app.use('/account', accountRoutes);
+app.use('/deposit', depositRoutes);
+app.use('/transfer', transferRoutes);
+app.use('/typeAccount', typeAccountRoutes);
+app.use('/service', servicesRoutes);
+app.use('/product', productRoutes);
+app.use('/serviceH', historyServices);
+app.use('/productsH',productsH);
+app.use('/transferH',historyTransfer);
+app.use('/depositH',depositH);
+app.use('/favorites',favorites);
+app.use('/productoS',shopProduct);
+app.use('/ShopService',shopService);
 
 export const initServer = () => {
     app.listen(port, () => {
