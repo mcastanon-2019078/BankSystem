@@ -1,10 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
+import { Index } from './Index.jsx'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    <Index /> 
+    <FontAwesomeIcon  />
   </React.StrictMode>,
 )
