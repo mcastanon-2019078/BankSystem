@@ -1,40 +1,40 @@
-import { Schema, model } from 'mongoose'
+'use strict'
 
-/**
- * Represents an account in the system.
- * @typedef {Object} Account
- * @property {number} NoAccount - The account number.
- * @property {number} balance - The account balance.
- * @property {string} typeAccount - The type of account. Can be 'saving' or 'current'.
- * @property {User} owner - The owner of the account.
- */
+import { Schema, model } from "mongoose"
 
-const accountSchema = new Schema({
-  NoAccount: {
-    type: Number,
-    required: true,
-    unique: true
-  },
-  balance: {
-    type: Number,
-    required: true
-  },
-  typeAccount: {
-    type: String,
-    enum: ['saving', 'current'],
-    default: 'saving'
-  },
-  owner: {
-    type: Schema.ObjectId,
-    ref: 'User',
-    required: true
-  }
+const accountSchema = Schema({
+    _id: {
+        type: Number
+    },
+    balances: {
+        type: Number,
+        required: true,
+        default: 0
+    },
+    typeAccount: {
+        type: Schema.ObjectId,
+        ref: 'TypeAccount',
+        required: true
+    },
+    state: {
+        type: String,
+        required: true,
+        default: 'Activa'
+    },
+    user: {
+        type: Schema.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    dpi: {
+        type: String
+    },
+    movements: {
+        type: Number,
+        default: 0
+    }
 }, {
-  versionKey: false
+    versionKey: false
 })
 
-/**
- * Represents a Account model.
- * @module Account
- */
-export default model('Account', accountSchema)
+export default model('Account', accountSchema);

@@ -1,154 +1,179 @@
-import { comparePassword, encryptPassword } from '../../utils/encrypt.js'
-import { createToken } from '../../utils/jwt.js'
-import { createAccount } from '../account/account.controller.js'
-import userModel from './user.model.js'
+'use strict'
 
-/**
- * Creates a new user.
- * @param {Object} req - The request object.
- * @param {Object} res - The response object.
- * @returns {Object} - The response object containing the created user and account information.
- */
-export const createUser = async (req, res) => {
-  try {
-    const data = req.body
-    data.password = await encryptPassword(data.password)
-    const user = new userModel(data)
-    await user.save()
-    const accountData = {
-      NoAccount:  Math.floor(Math.random() * 10000000000000),
-      balance: data.balance,
-      typeAccount: data.typeAccount,
-      owner: user._id
+import User from './user.model.js'
+import Account from '../account/account.model.js'
+import { checkPassword, encrypt, validateData } from '../utils/validate.js'
+import { createToken } from '../services/jwt.js'
+
+
+
+export const defaults = async (req, res) => {
+    try {
+        let admin = {
+            name: 'ADMINB',
+            username: 'ADMINB',
+            noAccount: 'ADMINB',
+            DPI: 'ADMINB',
+            adress: 'ADMINB',
+            phone: 'ADMINB',
+            email: 'ADMINB',
+            password: 'ADMINB',
+            work: 'ADMINB',
+            salary: '0.00',
+            role: 'ADMIN'
+        }
+        let defUser = {
+            name: 'Default',
+            username: 'Default',
+            noAccount: 'Default',
+            DPI: 'Default',
+            adress: 'Default',
+            phone: 'Default',
+            email: 'Default@gmail.com',
+            password: '123',
+            work: 'Default',
+            salary: '0.00',
+            role: 'Default'
+        }
+        admin.password = await encrypt(admin.password,);
+        defUser.password = await encrypt(defUser.password);
+        let existAdmin = await User.findOne({ username: admin.username });
+        let existDefault = await User.findOne({ username: defUser.username });
+        if (existAdmin || existDefault) return
+        let adminDefault = new User(admin)
+        let userDefault = new User(defUser)
+        await Promise.all([adminDefault.save(), userDefault.save()])
+        return
+    } catch (e) {
+        console.error(e);
+        return res.status(500).send({ message: 'Error create admin default' })
     }
-    const {success, account, message} = await createAccount(accountData)
-    if(!success) return res.status(500).send({ message: message })
-    return res.status(200).send({ message: 'User created successfully! ' + message, user, account })
-  } catch (error) {
-    return res.status(500).send({ message: 'Error creating user!', error })
-  }
 }
 
-/**
- * Retrieves a user by their ID.
- * @param {Object} req - The request object.
- * @param {Object} res - The response object.
- * @returns {Object} - The response object containing the retrieved user.
- */
-export const getUser = async (req, res) => {
-  try {
-    const user = await userModel.findById(req.params.id)
-    if (!user) return res.status(404).send({ message: 'User not found!' })
-    return res.status(200).send({ message: 'User found!', user })
-  } catch (error) {
-    return res.status(500).send({ message: 'Error getting user!', error })
-  }
-}
-
-/**
- * Retrieves all users.
- * @param {Object} req - The request object.
- * @param {Object} res - The response object.
- * @returns {Object} - The response object containing the retrieved users.
- */
-export const getUsers = async (req, res) => {
-  try {
-    const user = await userModel.find({})
-    if (!user) return res.status(404).send({ message: 'User not found!' })
-    return res.status(200).send({ message: 'Users found', user })
-  } catch (error) {
-    return res.status(500).send({ message: 'Error getting users!', error })
-  }
-}
-
-/**
- * Updates a user by their ID.
- * @param {Object} req - The request object.
- * @param {Object} res - The response object.
- * @returns {Object} - The response object containing the updated user.
- */
-export const updateUser = async (req, res) => {
-  try {
-    const user = await userModel.findByIdAndUpdate(
-      { _id: req.params.id },
-      req.body,
-      { new: true }
-    )
-    if (!user)
-      return res.status(404).send({ message: 'User not found, not updated!' })
-    return res.status(200).send({ message: 'User updated successfully!', user })
-  } catch (error) {
-    return res.status(500).send({ message: 'Error updating user!', error })
-  }
-}
-
-/**
- * Deletes a user by their ID.
- * @param {Object} req - The request object.
- * @param {Object} res - The response object.
- * @returns {Object} - The response object containing the deleted user.
- */
-export const deleteUser = async (req, res) => {
-  try {
-    const user = await userModel.findByIdAndDelete(req.params.id)
-    if (!user) return res.status(404).send({ message: 'User not found, not deleted!' })
-    return res.status(200).send({ message: 'User deleted successfully!', user })
-  } catch (error) {
-    return res.status(500).send({ message: 'Error deleting user!', error })
-  }
-}
-
-/**
- * Logs in a user.
- * @param {Object} req - The request object.
- * @param {Object} res - The response object.
- * @returns {Object} - The response object containing the logged in user information and token.
- */
 export const login = async (req, res) => {
-  try {
-    let user = await userModel.findOne({
-      $or: [{ username: req.body.username }, { email: req.body.email }],
-    })
-    if (user && (await comparePassword(req.body.password, user.password))) {
-      let { password, ...userInfo } = user._doc
-      let token = await createToken(userInfo)
-      res.cookie('token', token)
-      return res.send({
-        message: `Welcome ${user.username}`,
-        userInfo,
-        token,
-      })
+    try {
+        let data = req.body
+        if (!data.username || !data.password) return res.send({ message: 'Check that all fields are complete' });
+        let user = await User.findOne({ username: data.username });
+        if (user && await checkPassword(data.password, user.password)) {
+            let token = await createToken(user)
+            let userLogged = {
+                id: user._id,
+                name: user.name,
+                username: user.username,
+                DPI: user.DPI,
+                address: user.address,
+                phone: user.phone,
+                email: user.email,
+                workname: user.workname,
+                balance: user.balance,
+                role: user.role
+            }
+            return res.send({ message: 'User logged succesfully', token, userLogged })
+        }
+        return res.status(404).send({ message: 'Invalid Credentials' })
+    } catch (e) {
+        console.log(e);
+        return res.status(500).send({ message: 'Invalid credentials' })
     }
-    return res.status(404).send({ message: 'Invalid credentials!' })
-  } catch (error) {
-    return res.status(500).send({ message: 'Error login!', error })
-  }
 }
 
-/**
- * Creates a default admin user if no admin user exists.
- * @returns {void}
- */
-export const defaultAdmin = async () => {
-  try {
-    const verifyUser = await userModel.find({})
-    if (verifyUser.length > 0) return
-    const password = await encryptPassword(process.env.PASSWORD_ADMIN)
-    const user = new userModel({
-      name: 'ADMINB',
-      username: 'ADMINB',
-      email: 'ADMINB@gmail.com',
-      password,
-      DPI: '1234567890123',
-      address: 'Kinal',
-      phone: '12345678',
-      workname: 'Kinal',
-      age: '25',
-      role: 'ADMIN',
-    })
-    await user.save()
-    return console.log('First admin created successfully!')
-  } catch (error) {
-    return console.log('Error creating first admin!', error)
-  }
+export const saveUser = async (req, res) => {
+    try {
+        let data = req.body;
+
+        let userExistsDPI = await User.findOne({ DPI: data.DPI });
+        if (userExistsDPI) return res.send({ message: 'This DPI is already in use' });
+        let userExistsEmail = await User.findOne({ email: data.email });
+        if (userExistsEmail) return res.send({ message: 'This Email is already in use' });
+        let userExistsUsername = await User.findOne({ username: data.username })
+        if (userExistsUsername) return res.send({ message: 'This Email is already in use' })
+        if (data.salary < 100) return res.send({ message: 'The minimun salary can not be less than 100' })
+        let validate = validateData(data)
+        if (validate) return res.status(400).send({ message: validate })
+        data.password = await encrypt(data.password)
+        let user = new User(data);
+        await user.save();
+        return res.status(201).send({ message: 'User created successfully' });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).send({ message: 'Error creating user' })
+    }
+}
+
+export const updateUser = async (req, res) => {
+    try {
+        let idUser = req.params.id;
+        let data = req.body;
+
+        let userExistsDPI = await User.findOne({ DPI: data.DPI });
+        if (userExistsDPI) return res.send({ message: 'This DPI is already in use' });
+        let userExistsEmail = await User.findOne({ email: data.email });
+        if (userExistsEmail) return res.send({ message: 'This Email is already in use' });
+        let userExistsUsername = await User.findOne({ username: data.username })
+        if (userExistsUsername) return res.send({ message: 'This Email is already in use' })
+
+        let updatedUser = await User.findOneAndUpdate(
+            { _id: idUser },
+            data,
+            { new: true, upsert: true }
+        )
+        if (!updatedUser) return res.send({ message: 'User not found and not update' });
+        return res.send({ message: 'Updated User'})
+    } catch (e) {
+        console.log(e);
+        return res.status(500).send({ message: 'Error updating user' })
+    }
+}
+
+export const deleteUser = async (req, res) => {
+    try {
+        let idUser = req.params.id;
+        let defUser = await User.findOne({ name: 'Default' })
+        let accountUser = await Account.findOne({ user: idUser })
+        if (defUser._id == idUser) return res.send({ message: 'Default user cannot deleted' });
+        await Account.updateMany(
+            { user: idUser },
+            { user: defUser._id, dpi: defUser.DPI, state: 'Desactivada' }
+        );
+        let userDeleted = await User.findOneAndDelete({ _id: idUser });
+        if (!userDeleted) return res.send({ message: 'User not found and not deleted' });
+        return res.send({ message: 'User deleting succesfully' })
+    } catch (e) {
+        console.log(e);
+        return res.status(404).send({ message: 'Error deleting user' })
+    }
+}
+
+export const getUser = async (req, res) => {
+    try {
+        let users = await User.find();
+        return res.status(200).send({ users });
+    } catch (e) {
+        console.error(e);
+        return res.status(500).send({ message: 'Error getting' })
+    }
+}
+
+export const getByIdUser = async (req, res) => {
+    try {
+        let { id } = req.params;
+        let user = await User.findOne({ _id: id });
+        if (!user) return res.send({ message: 'User not found' });
+        return res.status(200).send({ user });
+    } catch (e) {
+        console.error(e);
+        return res.status(500).send({ message: 'Error getting' })
+    }
+}
+
+export const getRoleClient = async (req, res) => {
+    try {
+        let user = await User.find({ role: 'CLIENT' });
+        if (!user) return res.send({ message: 'User not found role Client' });
+        return res.status(200).send({ user });
+    } catch (e) {
+        console.error(e);
+        return res.status(500).send({ message: 'Error getting' })
+    }
 }

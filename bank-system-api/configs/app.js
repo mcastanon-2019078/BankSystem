@@ -1,44 +1,54 @@
-/**
- * Express server configuration file.
- * @module app
- */
+import { config } from 'dotenv';
+import express from 'express';
+import morgan from 'morgan';
+import helmet from 'helmet';
+import cors from 'cors';
 
-import cookieParser from 'cookie-parser'
-import cors from 'cors'
-import { config } from 'dotenv'
-import express from 'express'
-import helmet from 'helmet'
-import morgan from 'morgan'
-import accountRoutes from '../src/account/account.routes.js'
+const app = express();
+config();
+
+const port = process.env.PORT || 3200
+
+// Import routes
+
 import userRoutes from '../src/user/user.routes.js'
+import accountRoutes from '../src/account/account.routes.js';
+import depositRoutes from '../src/deposit/deposit.routes.js';
+import transferRoutes from '../src/transfer/transfers.routes.js'
+import typeAccountRoutes from '../src/typeAccount/typeAccount.routes.js';
+import servicesRoutes from '../src/ProductServices/services.routes.js';
+import productRoutes from '../src/product/product.routes.js';
+import historyServices from '../src/servicesShopH/servicesShopH.routes.js';
+import productsH from '../src/productsH/productsH.routes.js';
+import historyTransfer from '../src/transferH/transferH.routes.js';
+import depositH from '../src/depositH/depositH.routes.js';
+import favorites from '../src/favorite/favorite.routes.js';
+import shopProduct from '../src/productS/productS.routes.js';
+import shopService from '../src/shopService/shopService.routes.js';
 
-const app = express() // Create the server
-config()
-const port = process.env.PORT || 3000
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(cors());
+app.use(helmet());
+app.use(morgan('dev'));
 
-// Configure the express server
-app.use(express.urlencoded({ extended: false }))
-app.use(express.json())
+app.use('/user', userRoutes)
+app.use('/account', accountRoutes);
+app.use('/deposit', depositRoutes);
+app.use('/transfer', transferRoutes);
+app.use('/typeAccount', typeAccountRoutes);
+app.use('/service', servicesRoutes);
+app.use('/product', productRoutes);
+app.use('/serviceH', historyServices);
+app.use('/productsH',productsH);
+app.use('/transferH',historyTransfer);
+app.use('/depositH',depositH);
+app.use('/favorites',favorites);
+app.use('/productoS',shopProduct);
+app.use('/ShopService',shopService);
 
-// Accept or deny requests from different origins (local, remote)
-app.use(cors())
-app.use(helmet())
-
-// Create logs of HTTP requests
-app.use(morgan('dev'))
-
-// Parse request cookies
-app.use(cookieParser())
-
-// API routes
-app.use(userRoutes)
-app.use(accountRoutes)
-
-/**
- * Initializes the server and starts listening on the specified port.
- * @function initServer
- * @returns {void}
- */
 export const initServer = () => {
-  app.listen(port, () => console.log(`Server HTTP running in port ${port}`))
-}
+    app.listen(port, () => {
+        console.log(`Server http running in port ${port}`);
+    });
+};

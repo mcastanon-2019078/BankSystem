@@ -1,57 +1,17 @@
-/**
- * @fileoverview This file contains the routes for user-related operations.
- * @module UserRoutes
- */
+'use strict'
 
-import { Router } from 'express'
-import { validateRoleAdmin, validateToken } from '../../middlewares/validateToken.js'
-import { createUser, deleteUser, getUser, getUsers, login, updateUser } from './user.controller.js'
+import { Router } from "express"
+import { deleteUser, getByIdUser, getRoleClient, getUser, login, saveUser, updateUser } from "./user.controller.js"
+import { validateToken, validateRoleAdmin } from "../../middlewares/validateToken.js"
 
 const api = Router()
 
-/**
- * @route POST /createUser
- * @description Create a new user
- * @access Private (requires token and admin role)
- */
-api.post('/createUser', [validateToken, validateRoleAdmin], createUser)
-
-/**
- * @route POST /getUser/:id
- * @description Get a user by ID
- * @param {string} id - The ID of the user
- * @access Private (requires token and admin role)
- */
-api.post('/getUser/:id', [validateToken, validateRoleAdmin], getUser)
-
-/**
- * @route GET /getUsers
- * @description Get all users
- * @access Private (requires token and admin role)
- */
-api.get('/getUsers', [validateToken, validateRoleAdmin], getUsers)
-
-/**
- * @route PUT /updateUser/:id
- * @description Update a user by ID
- * @param {string} id - The ID of the user
- * @access Private (requires token and admin role)
- */
-api.put('/updateUser/:id', [validateToken, validateRoleAdmin], updateUser)
-
-/**
- * @route DELETE /deleteUser/:id
- * @description Delete a user by ID
- * @param {string} id - The ID of the user
- * @access Private (requires token and admin role)
- */
-api.delete('/deleteUser/:id', [validateToken, validateRoleAdmin], deleteUser)
-
-/**
- * @route POST /login
- * @description User login
- * @access Public
- */
-api.post('/login', login)
+api.post('/save', [validateToken, validateRoleAdmin],  saveUser);
+api.post('/login', login);
+api.put('/update/:id', [validateToken, validateRoleAdmin], updateUser);
+api.delete('/delete/:id', [validateToken, validateRoleAdmin], deleteUser);
+api.get('/get',  [validateToken, validateRoleAdmin], getUser);
+api.get('/getById/:id', [validateToken, validateRoleAdmin], getByIdUser);
+api.get('/getRoleClient', [validateToken, validateRoleAdmin], getRoleClient);
 
 export default api

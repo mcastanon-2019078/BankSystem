@@ -17,10 +17,7 @@ export const AddClient = () => {
     password: '',
     workname: '',
     role: '',
-    age: '',
-    balance: '',
-    typeAccount: ''
-
+    age: ''
   });
 
   const registerHandleChange = (e) => {
@@ -117,15 +114,7 @@ export const AddClient = () => {
               </div>
               <div className='input_box'>
                 <label htmlFor='inputAge'>Age</label>
-                <input type='number' id='inputAge' placeholder='Enter your Age' name='age' onChange={registerHandleChange} required />
-              </div>
-              <div className='input_box' style={{ width: '100%' }}>
-                <label htmlFor='inputRole'>Type Account</label>
-                <select className='select form-select' aria-label='Default select example' id='inputRole' placeholder='Select to role' name='role' onChange={registerHandleChange}>
-                  <option value={form.role}>Select type account</option>
-                  <option value='saving'>Saving</option>
-                  <option value='current'>Current</option>
-                </select>
+                <input type='number' id='inputAge' min={18} placeholder='Enter your Age' name='age' onChange={registerHandleChange} required />
               </div>
               <div className='input_box' style={{ width: '100%' }}>
                 <label htmlFor='inputTypeAccount'>Role</label>

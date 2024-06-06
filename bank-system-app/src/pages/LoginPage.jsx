@@ -23,22 +23,21 @@ export const LoginPage = () => {
     const login = async (e) => {
         try {
             e.preventDefault()
-            const response = await axios.post('http://localhost:3000/login', form)
+            const response = await axios.post('http://localhost:3000/user/login', form)
             console.log(response)
             if (response.data.token) {
                 setLoggedIn(true)
                 localStorage.setItem('token', response.data.token)
                 setDataUser({
-                    id: response.data.userInfo._id,
-                    name: response.data.userInfo.name,
-                    username: response.data.userInfo.username,
-                    DPI: response.data.userInfo.DPI,
-                    address: response.data.userInfo.address,
-                    phone: response.data.userInfo.phone,
-                    email: response.data.userInfo.email,
-                    workname: response.data.userInfo.workname,
-                    role: response.data.userInfo.role
-                    /* salary: response.data.userInfo.salary, */
+                    id: response.data.userLogged._id,
+                    name: response.data.userLogged.name,
+                    username: response.data.userLogged.username,
+                    DPI: response.data.userLogged.DPI,
+                    address: response.data.userLogged.address,
+                    phone: response.data.userLogged.phone,
+                    email: response.data.userLogged.email,
+                    workname: response.data.userLogged.workname,
+                    role: response.data.userLogged.role
                 })
                 Swal.fire({
                     icon: 'success',
