@@ -59,7 +59,7 @@ export const AddClient = () => {
       const response = await axios.post('http://localhost:3000/user/save', form,
         {
           headers: {
-            'token': token
+            token
           }
         })
       console.log(response);

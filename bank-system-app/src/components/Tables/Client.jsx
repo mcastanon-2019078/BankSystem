@@ -1,16 +1,16 @@
 import React from 'react'
 
-export const TableClient = ({name, username, DPI, adress, phone, email, work, salary, role}) => {
+export const TableClient = ({name, username, DPI, address, phone, email, workname, balance, role}) => {
     return (
         <>
         <td>{name}</td>
         <td>{username}</td>
         <td>{DPI}</td>
-        <td>{adress}</td>
+        <td>{address}</td>
         <td>{phone}</td>
         <td>{email}</td>
-        <td>{work}</td>
-        <td>{salary}</td>
+        <td>{workname}</td>
+        <td>{balance}</td>
         <td>{role}</td>
         </>
     )

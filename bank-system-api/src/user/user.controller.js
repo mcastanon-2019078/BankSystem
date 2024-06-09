@@ -109,7 +109,7 @@ export const updateUser = async (req, res) => {
         let userExistsEmail = await User.findOne({ email: data.email });
         if (userExistsEmail) return res.send({ message: 'This Email is already in use' });
         let userExistsUsername = await User.findOne({ username: data.username })
-        if (userExistsUsername) return res.send({ message: 'This Email is already in use' })
+        if (userExistsUsername) return res.send({ message: 'This username is already in use' })
 
         let updatedUser = await User.findOneAndUpdate(
             { _id: idUser },
