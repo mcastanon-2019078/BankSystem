@@ -1,9 +1,9 @@
 'use strict'
 
-import User from './user.model.js'
 import Account from '../account/account.model.js'
-import { checkPassword, encrypt, validateData } from '../utils/validate.js'
 import { createToken } from '../services/jwt.js'
+import { checkPassword, encrypt, validateData } from '../utils/validate.js'
+import User from './user.model.js'
 
 
 
@@ -12,27 +12,25 @@ export const defaults = async (req, res) => {
         let admin = {
             name: 'ADMINB',
             username: 'ADMINB',
-            noAccount: 'ADMINB',
             DPI: 'ADMINB',
-            adress: 'ADMINB',
+            address: 'ADMINB',
             phone: 'ADMINB',
             email: 'ADMINB',
             password: 'ADMINB',
-            work: 'ADMINB',
-            salary: '0.00',
+            workname: 'ADMINB',
+            balance: '0.00',
             role: 'ADMIN'
         }
         let defUser = {
             name: 'Default',
             username: 'Default',
-            noAccount: 'Default',
             DPI: 'Default',
-            adress: 'Default',
+            address: 'Default',
             phone: 'Default',
             email: 'Default@gmail.com',
             password: '123',
-            work: 'Default',
-            salary: '0.00',
+            workname: 'Default',
+            balance: '0.00',
             role: 'Default'
         }
         admin.password = await encrypt(admin.password,);

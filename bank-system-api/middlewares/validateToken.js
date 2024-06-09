@@ -21,7 +21,7 @@ export const validateToken = async (req, res, next) => {
 export const validateRoleAdmin = async (req, res, next) => {
   try {
     let { role } = req.user
-    if (!role || role === 'CLIENT')
+    if (!role || role === 'CLIENT' || role === 'DEFAULT')
       return res.status(401).send({ message: 'You dont have access' })
     next()
   } catch (error) {

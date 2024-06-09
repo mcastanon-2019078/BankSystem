@@ -16,8 +16,7 @@ export const AddClient = () => {
     email: '',
     password: '',
     workname: '',
-    role: '',
-    age: ''
+    role: ''
   });
 
   const registerHandleChange = (e) => {
@@ -27,7 +26,28 @@ export const AddClient = () => {
     })
   }
 
+  const validateForm = () => {
+    if(form.phone.length != 8) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Phone number must be 8 characters'
+      });
+      return false
+    }
+
+    if(form.DPI.length != 13) {
+      Swal.fire({
+        icon: 'error',
+        title: 'DPI must be 13 characters'
+      });
+      return false
+    }
+    return true
+  }
+
   const save = async (e) => {
+    e.preventDefault();
+    if(!validateForm()) return
     try {
       const token = localStorage.getItem('token')
       if (!token) {
@@ -36,7 +56,7 @@ export const AddClient = () => {
           title: 'You must be logged in to perform this action'
         })
       }
-      const response = await axios.post('http://localhost:3000/createUser', form,
+      const response = await axios.post('http://localhost:3000/user/save', form,
         {
           headers: {
             'token': token
@@ -74,11 +94,11 @@ export const AddClient = () => {
           <div className='title'>
             <p>Registration</p>
           </div>
-          <form id='formm'>
+          <form id='formm' onSubmit={(e) => save(e)}>
             <div className='user_details'>
               <div className='input_box'>
                 <label htmlFor='inputName'>Full Name</label>
-                <input type='text' id='inputName' placeholder='Enter your name' name='name' onChange={registerHandleChange} required />
+                <input type='text' required={true} id='inputName' placeholder='Enter your name' name='name' onChange={registerHandleChange} />
               </div>
               <div className='input_box'>
                 <label htmlFor='inputUsername'>Username</label>
@@ -93,40 +113,36 @@ export const AddClient = () => {
                 <input type='number' id='inputPhone' placeholder='Enter your number' name='phone' onChange={registerHandleChange} required />
               </div>
               <div className='input_box'>
-                <label htmlFor='inputBalance'>Salary</label>
-                <input type='number' id='inputBalance' placeholder='Enter your No.Account' name='balance' onChange={registerHandleChange} required />
+                <label htmlFor='inputBalance'>Balance</label>
+                <input type='number' min={100} id='inputBalance' placeholder='Enter your No.Account' name='balance' onChange={registerHandleChange} required />
               </div>
               <div className='input_box'>
                 <label htmlFor='inputDPI'>DPI</label>
                 <input type='number' id='inputDPI' placeholder='Enter your DPI' name='DPI' onChange={registerHandleChange} required />
               </div>
               <div className='input_box'>
-                <label htmlFor='inputWork'>Work</label>
+                <label htmlFor='inputWork'>WorkName</label>
                 <input type='text' id='inputWork' placeholder='Enter your work' name='workname' onChange={registerHandleChange} required />
               </div>
               <div className='input_box'>
                 <label htmlFor='inputPass'>Password</label>
-                <input type='password' id='inputPass' placeholder='Enter your password' name='password' onChange={registerHandleChange} required />
+                <input type='password' minLength={8} id='inputPass' placeholder='Enter your password' name='password' onChange={registerHandleChange} required />
               </div>
               <div className='input_box' style={{ width: '100%' }}>
                 <label htmlFor='inputAddress'>Address</label>
                 <input type='text' id='inputAddress' placeholder='Enter your Address' name='address' onChange={registerHandleChange} required />
               </div>
-              <div className='input_box'>
-                <label htmlFor='inputAge'>Age</label>
-                <input type='number' id='inputAge' min={18} placeholder='Enter your Age' name='age' onChange={registerHandleChange} required />
-              </div>
               <div className='input_box' style={{ width: '100%' }}>
-                <label htmlFor='inputTypeAccount'>Role</label>
-                <select className='select form-select' aria-label='Default select example' id='inputTypeAccount' placeholder='Select to role' name='typeAccount' onChange={registerHandleChange}>
-                  <option value={form.role}>Select to role</option>
+                <label htmlFor='inputRole'>Role</label>
+                <select className='select form-select' aria-label='Default select example' id='inputRole' placeholder='Select to role' name='role' onChange={registerHandleChange} required >
+                  <option value=''>Select to role</option>
                   <option value='ADMIN'>Admin</option>
                   <option value='CLIENT'>Client</option>
                 </select>
               </div>
             </div>
             <div className='reg_btn'>
-              <button type='button' onClick={(e) => save(e)}>Register</button>
+              <button type='submit'>Register</button>
             </div>
           </form>
         </div>

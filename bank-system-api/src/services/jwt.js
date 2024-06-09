@@ -1,24 +1,23 @@
 'use strict'
 
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 
 export const createToken = (user) => {
     try {
         let payload = {
-            sub: user._id,
+            _id: user._id,
             name: user.name,
-            noAccount: user.noAccount,
-            dpi: user.dpi,
-            adress: user.adress,
+            DPI: user.DPI,
+            address: user.address,
             phone: user.phone,
             email: user.email,
-            work: user.work,
-            salary: user.salary,
+            workname: user.workname,
+            balance: user.balance,
             role: user.role,
             iat: Math.floor(Date.now() / 1000),
             exp: Math.floor(Date.now() / 1000) + (60 * 120)
         }
-        return jwt.sign(payload, `$(procces.env.SECRET_KEY)`);
+        return jwt.sign(payload, process.env.SECRET_KEY);
     } catch (e) {
         console.error(e);
         return e;
