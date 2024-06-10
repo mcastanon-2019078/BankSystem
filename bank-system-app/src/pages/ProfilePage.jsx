@@ -1,9 +1,8 @@
-import React from 'react'
-import { SiberBar } from '../components/Sidebar/SiberBar'
-import { AuthContext } from '../Index'
-import { useState, useContext, useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
 import queryString from 'query-string'
+import { useContext } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { AuthContext } from '../Index'
+import { SiberBar } from '../components/Sidebar/SiberBar'
 
 
 export const ProfilePage = () => {
@@ -42,23 +41,23 @@ export const ProfilePage = () => {
                             </div>
                             <div className="input_box">
                                 <label htmlFor="inputPhone">Phone Number</label>
-                                <input type="text" id="inputPhone" placeholder="Enter your number" defaultValue={queryParams.phone || dataUser.phone} name='phone' readOnly />
+                                <input type="text" id="inputPhone" placeholder="Enter your number phone" defaultValue={queryParams.phone || dataUser.phone} name='phone' readOnly />
                             </div>
                             <div className="input_box">
-                                <label htmlFor="inputSalary">Salary</label>
-                                <input type="number" id="inputSalary" placeholder="Enter your No.Account" defaultValue={dataUser.salary} name='salary' readOnly />
+                                <label htmlFor="inputBalance">Balance</label>
+                                <input type="number" id="inputBalance" placeholder="Enter your balance" defaultValue={dataUser.balance} name='balance' readOnly />
                             </div>
                             <div className="input_box">
                                 <label htmlFor="inputDPI">DPI</label>
                                 <input type="text" id="inputDPI" placeholder="Enter your DPI" defaultValue={dataUser.DPI} name='DPI' readOnly />
                             </div>
                             <div className="input_box">
-                                <label htmlFor="inputWork">Name work</label>
-                                <input type="text" id="inputWork" placeholder="Enter your work" defaultValue={dataUser.work} name='work' readOnly />
+                                <label htmlFor="inputWorkName">Name work</label>
+                                <input type="text" id="inputWorkName" placeholder="Enter your workname" defaultValue={dataUser.workname} name='workname' readOnly />
                             </div>
                             <div className="input_box" style={{ width: '100%' }}>
                                 <label htmlFor="inputAddress">Address</label>
-                                <input type="text" id="inputAddress" placeholder='Enter your Address' defaultValue={dataUser.adress} name="adress" readOnly />
+                                <input type="text" id="inputAddress" placeholder='Enter your Address' defaultValue={dataUser.address} name="address" readOnly />
                             </div>
                         </div>
                         {

@@ -29,7 +29,7 @@ export const LoginPage = () => {
                 setLoggedIn(true)
                 localStorage.setItem('token', response.data.token)
                 setDataUser({
-                    id: response.data.userLogged._id,
+                    id: response.data.userLogged.id,
                     name: response.data.userLogged.name,
                     username: response.data.userLogged.username,
                     DPI: response.data.userLogged.DPI,
@@ -37,6 +37,7 @@ export const LoginPage = () => {
                     phone: response.data.userLogged.phone,
                     email: response.data.userLogged.email,
                     workname: response.data.userLogged.workname,
+                    balance: response.data.userLogged.balance,
                     role: response.data.userLogged.role
                 })
                 Swal.fire({

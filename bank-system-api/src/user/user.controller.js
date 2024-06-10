@@ -117,7 +117,7 @@ export const updateUser = async (req, res) => {
             { new: true, upsert: true }
         )
         if (!updatedUser) return res.send({ message: 'User not found and not update' });
-        return res.send({ message: 'Updated User'})
+        return res.send({ message: 'Updated User' })
     } catch (e) {
         console.log(e);
         return res.status(500).send({ message: 'Error updating user' })
@@ -173,5 +173,34 @@ export const getRoleClient = async (req, res) => {
     } catch (e) {
         console.error(e);
         return res.status(500).send({ message: 'Error getting' })
+    }
+}
+
+export const getPersonalInfo = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { _id, role } = req.user;
+        if (role !== 'ADMIN' && id.toString() !== _id.toString()) return res.status(401).send({ message: 'Unauthorized' })
+        const user = await User.findOne({ _id: id });
+        if (!user) return res.send({ message: 'User not found' });
+        return res.status(200).send({ user });
+    } catch (e) {
+        console.error(e);
+        return res.status(500).send({ message: 'Error getting personal info' })
+    }
+}
+
+export const updatePersonalInfo = async(req, res) => {
+    try {
+        const {id} = req.params
+        const { _id, role } = req.user
+        const data = req.body
+        if (role !== 'ADMIN' && id.toString() !== _id.toString()) return res.status(401).send({ message: 'Unauthorized' })
+        const user = await User.findByIdAndUpdate({_id:id}, data, {new:true})
+        if (!user) return res.send({ message: 'User not found' });
+        return res.status(200).send({ message: 'Personal info updated', user })
+    } catch (error) {
+        console.error(error)
+        return res.status(500).send({ message: 'Error updating personal info' })
     }
 }
