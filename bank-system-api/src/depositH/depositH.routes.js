@@ -1,11 +1,12 @@
 'use strict'
 
-import { Router } from "express"
-import { getByIdDepositH, getDepositH } from "./depositH.controller.js"
+import { Router } from "express";
+import { validateRoleAdmin, validateToken } from '../../middlewares/validateToken.js';
+import { getByIdDepositH, getDepositH } from "./depositH.controller.js";
 
 const api = Router()
 
-api.get('/get/:id', getDepositH);
-api.get('/getById', getByIdDepositH);
+api.get('/get/:id', [validateToken, validateRoleAdmin], getDepositH);
+api.get('/getById', [validateToken, validateRoleAdmin], getByIdDepositH);
 
 export default api

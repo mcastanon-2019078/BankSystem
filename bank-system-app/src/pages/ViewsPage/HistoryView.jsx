@@ -1,8 +1,8 @@
 import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { SiberBar } from '../../components/Sidebar/SiberBar'
+import { useParams } from 'react-router-dom'
 import { AuthContext } from '../../Index'
+import { SiberBar } from '../../components/Sidebar/SiberBar'
 
 export const HistoryView = () => {
   const [data, setData] = useState([{}]);
@@ -29,7 +29,15 @@ export const HistoryView = () => {
     try {
       setTitle('History Deposit');
       handleButtonClick(activate2);
-      const { data } = await axios(`http://localhost:2880/historyDeposit/get/${idSearch}`);
+      //const { data } = await axios(`http://localhost:3000/historyDeposit/get/${idSearch}`);
+      const token = localStorage.getItem('token');
+      const { data } = await axios(`http://localhost:3000/depositH/get/${idSearch}`,
+        {
+          headers: {
+            token
+          }
+        }
+      );
       setData(data.history)
       console.log(showDeposit);
     } catch (e) {
@@ -46,7 +54,14 @@ export const HistoryView = () => {
       }
       setTitle('History Transfer');
       handleButtonClick(activate2);
-      const { data } = await axios(`http://localhost:2880/historyTransfer/get/${idSearch}`);
+      const token = localStorage.getItem('token');
+      const { data } = await axios(`http://localhost:3000/transferH/get/${idSearch}`,
+        {
+          headers: {
+            token
+          }
+        }
+      );
       setData(data.history)
     } catch (e) {
       console.log(e);
@@ -62,7 +77,14 @@ export const HistoryView = () => {
       }
       setTitle('History purchased products');
       handleButtonClick(activate2);
-      const { data } = await axios(`http://localhost:2880/historyProducts/get/${idSearch}`);
+      const token = localStorage.getItem('token');
+      const { data } = await axios(`http://localhost:3000/productsH/get/${idSearch}`,
+        {
+          headers: {
+            token
+          }
+        }
+      );
       setData(data.history);
     } catch (e) {
       console.log(e);
@@ -78,7 +100,14 @@ export const HistoryView = () => {
       }
       setTitle('History purchased services');
       handleButtonClick(activate2);
-      const { data } = await axios(`http://localhost:2880/historyServices/get/${idSearch}`);
+      const token = localStorage.getItem('token');
+      const { data } = await axios(`http://localhost:3000/serviceH/get/${idSearch}`,
+        {
+          headers: {
+            token
+          }
+        }
+      );
       setData(data.history);
     } catch (e) {
       console.log(e);
