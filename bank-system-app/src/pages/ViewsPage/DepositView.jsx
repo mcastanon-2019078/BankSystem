@@ -1,11 +1,10 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
+import { ModalDeposit } from '../../components/Modal/Deposit'
 import { SiberBar } from '../../components/Sidebar/SiberBar'
 import { TableDeposit } from '../../components/Tables/Deposit'
-import { ModalDeposit } from '../../components/Modal/Deposit'
 import { ModalPutDeposit } from '../Updates/ModalPutDeposit'
-import Swal from 'sweetalert2';
 
 export const DepositView = () => {
   const [deposit, setDeposit] = useState([{}])
@@ -18,7 +17,14 @@ export const DepositView = () => {
 
   const getTableDeposit = async () => {
     try {
-      const { data } = await axios('http://localhost:2880/deposit/get');
+      const token = localStorage.getItem('token');
+      const { data } = await axios('http://localhost:3000/deposit/get',
+        {
+          headers: {
+            token
+          }
+        }
+      );
       setDeposit(data.deposits)
       setTableDeposits(data.deposits)
     } catch (e) {
@@ -36,18 +42,25 @@ export const DepositView = () => {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, reverse it!'
-    }).then(async (result) => {
+      }).then(async (result) => {
         if (result.isConfirmed) {
-            const { data } = await axios.delete(`http://localhost:2880/deposit/delete/${id}`);
-            getTableDeposit();
-            Swal.fire(
-                data.message,
-                '',
-                'success'
-            );
+          const token = localStorage.getItem('token');
+          const { data } = await axios.delete(`http://localhost:3000/deposit/delete/${id}`,
+            {
+              headers: {
+                token
+              }
+            }
+          );
+          getTableDeposit();
+          Swal.fire(
+            data.message,
+            '',
+            'success'
+          );
         }
-    });
-    }catch(e){
+      });
+    } catch (e) {
       console.log(e);
     }
   }
@@ -173,10 +186,10 @@ export const DepositView = () => {
                                         </div>
                                         <div className='btn btn-sm btn-danger btn-outline-secondary badge'>
                                           <button onClick={() => reverseDeposit(_id)} className='btn badge' type='button' data-toggle='modal' data-target='#user-form-modal'>
-                                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-repeat bi2" viewBox="0 0 16 16">
-                                            <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
-                                            <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
-                                          </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-repeat bi2" viewBox="0 0 16 16">
+                                              <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z" />
+                                              <path fillRule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z" />
+                                            </svg>
                                           </button>
                                         </div>
                                       </div>
