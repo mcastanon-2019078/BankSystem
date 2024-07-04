@@ -31,7 +31,7 @@ export const defaults = async (req, res) => {
             password: '123',
             workname: 'Default',
             balance: '0.00',
-            role: 'Default'
+            role: 'CLIENT'
         }
         admin.password = await encrypt(admin.password,);
         defUser.password = await encrypt(defUser.password);
