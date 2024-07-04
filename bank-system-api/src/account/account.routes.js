@@ -13,6 +13,6 @@ api.get('/get', [validateToken, validateRoleAdmin], getAccounts);
 api.get('/getById/:id', [validateToken, validateRoleAdmin], getByIdAccount);
 api.get('/getMovementsHigh', [validateToken, validateRoleAdmin], movementsHight);
 api.get('/getMovementsUnder', [validateToken, validateRoleAdmin], movementsUnder);
-api.get('/getByUser/:id', [validateToken, validateRoleAdmin], getByUser);
+api.get('/getByUser/:id', [validateToken], getByUser);
 
 export default api;

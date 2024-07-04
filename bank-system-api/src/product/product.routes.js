@@ -9,7 +9,7 @@ const api = Router()
 api.post('/add', [validateToken, validateRoleAdmin], addProduct);
 api.put('/update/:id', [validateToken, validateRoleAdmin], updateP);
 api.delete('/delete/:id', [validateToken, validateRoleAdmin], deleteProduct);
-api.get('/get', [validateToken, validateRoleAdmin], getProduct);
+api.get('/get', [validateToken], getProduct);
 api.get('/getById/:id', [validateToken, validateRoleAdmin], getByIdProduct);
 
 export default api
