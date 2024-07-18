@@ -26,6 +26,7 @@ import { HistoryView } from './pages/ViewsPage/HistoryView'
 import { BuyServicePage } from './pages/BuyServicePage'
 import { BuyProductPage } from './pages/BuyProductPage'
 import { ChangePage } from './pages/ChangePage'
+import { jwtDecode } from "jwt-decode"
 
 export const AuthContext = createContext();
 
@@ -43,13 +44,30 @@ export const Index = () => {
         phone: '',
         email: '',
         work: '',
-        salary: '',
+        balance: '',
         role: ''
     })
 
     useEffect(() => {
         let token = localStorage.getItem('token')
-        if (token) setLoggedIn(true)
+        if (!token) return
+        setLoggedIn(true)
+        const dataInfo = jwtDecode(token)
+        setDataUser({
+            id: dataInfo._id,
+            name: dataInfo.name,
+            username: dataInfo.username,
+            DPI: dataInfo.DPI,
+            address: dataInfo.address,
+            phone: dataInfo.phone,
+            email: dataInfo.email,
+            workname: dataInfo.workname,
+            balance: dataInfo.balance,
+            role: dataInfo.role
+        })
+        console.log('refres');
+        console.log(dataUser);
+        console.log(dataInfo._id);
     }, []);
 
     const handleLogout = () => {
@@ -144,11 +162,11 @@ export const Index = () => {
                 },
                 {
                     path: '/history/:id?',
-                    element: <HistoryView/>
+                    element: <HistoryView />
                 },
                 {
                     path: '/shopService',
-                    element: <BuyServicePage></BuyServicePage>
+                    element: <BuyServicePage/>
                 },
                 {
                     path: '/buyProducts',
@@ -156,7 +174,7 @@ export const Index = () => {
                 },
                 {
                     path: '/change',
-                    element: <ChangePage/>
+                    element: <ChangePage />
                 }
             ]
         }

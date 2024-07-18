@@ -12,8 +12,7 @@ export const ModalBuyProducts = ({ isOpen, onClose, id }) => {
   const getAccounts = async () => {
     try {
       const token = localStorage.getItem('token')
-      console.log(dataUser);
-      const { data } = await axios(`http://localhost:3000/account/getByUser/${dataUser.id}`,
+      const { data } = dataUser && await axios(`http://localhost:3000/account/getByUser/${dataUser.id}`,
         {
           headers: {
             token
