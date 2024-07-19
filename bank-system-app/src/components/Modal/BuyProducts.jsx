@@ -5,7 +5,6 @@ import Swal from 'sweetalert2';
 import { AuthContext } from '../../Index';
 
 export const ModalBuyProducts = ({ isOpen, onClose, id }) => {
-
   const { dataUser } = useContext(AuthContext)
   const [accounts, setAccounts] = useState([{}])
 

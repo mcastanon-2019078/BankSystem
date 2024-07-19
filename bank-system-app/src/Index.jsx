@@ -1,32 +1,28 @@
-import React, { createContext } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import App from './App'
-import { HomePage } from './pages/HomePage'
-import { NotFoundPage } from './pages/NotFoundPage'
-import { LoginPage } from './pages/LoginPage'
 import { AdminPage } from './pages/AdminPage'
+import { BuyProductPage } from './pages/BuyProductPage'
+import { BuyServicePage } from './pages/BuyServicePage'
+import { ChangePage } from './pages/ChangePage'
 import { AddClient } from './pages/CreatePages/AddClient'
-import { ClienteView } from './pages/ViewsPage/ClienteView'
-import { useState } from 'react'
-import { useEffect } from 'react'
+import { FavoritPage } from './pages/FavoritPage'
+import { LoginPage } from './pages/LoginPage'
+import { NotFoundPage } from './pages/NotFoundPage'
+import { ProfileAccountsPage } from './pages/ProfileAccountsPage'
 import { ProfilePage } from './pages/ProfilePage'
-import { UpdateProfile } from './pages/Updates/Profile'
 import { UpdateClient } from './pages/Updates/Client'
-import { TypeAccountsView } from './pages/ViewsPage/TypeAccountsView'
+import { UpdateProduct } from './pages/Updates/Product'
+import { UpdateProfile } from './pages/Updates/Profile'
+import { UpdateServices } from './pages/Updates/Services'
+import { AccountView } from './pages/ViewsPage/AccountView'
+import { ClienteView } from './pages/ViewsPage/ClienteView'
+import { DepositView } from './pages/ViewsPage/DepositView'
+import { HistoryView } from './pages/ViewsPage/HistoryView'
 import { ProductsView } from './pages/ViewsPage/ProductsView'
 import { ServicesView } from './pages/ViewsPage/ServicesView'
-import { UpdateServices } from './pages/Updates/Services'
-import { UpdateProduct } from './pages/Updates/Product'
 import { TransferView } from './pages/ViewsPage/TransferView'
-import { DepositView } from './pages/ViewsPage/DepositView'
-import { ProfileAccountsPage } from './pages/ProfileAccountsPage'
-import { AccountView } from './pages/ViewsPage/AccountView'
-import { FavoritPage } from './pages/FavoritPage'
-import { HistoryView } from './pages/ViewsPage/HistoryView'
-import { BuyServicePage } from './pages/BuyServicePage'
-import { BuyProductPage } from './pages/BuyProductPage'
-import { ChangePage } from './pages/ChangePage'
-import { jwtDecode } from "jwt-decode"
+import { TypeAccountsView } from './pages/ViewsPage/TypeAccountsView'
 
 export const AuthContext = createContext();
 
@@ -52,22 +48,6 @@ export const Index = () => {
         let token = localStorage.getItem('token')
         if (!token) return
         setLoggedIn(true)
-        const dataInfo = jwtDecode(token)
-        setDataUser({
-            id: dataInfo._id,
-            name: dataInfo.name,
-            username: dataInfo.username,
-            DPI: dataInfo.DPI,
-            address: dataInfo.address,
-            phone: dataInfo.phone,
-            email: dataInfo.email,
-            workname: dataInfo.workname,
-            balance: dataInfo.balance,
-            role: dataInfo.role
-        })
-        console.log('refres');
-        console.log(dataUser);
-        console.log(dataInfo._id);
     }, []);
 
     const handleLogout = () => {

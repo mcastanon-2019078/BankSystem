@@ -95,7 +95,7 @@ export const BuyProductPage = () => {
           </ul>
         </div>
       </div>
-      <ModalBuyProducts isOpen={showModalProduct} onClose={handleCloseModal} id={buyProduct} />
+      {showModalProduct && <ModalBuyProducts isOpen={showModalProduct} onClose={handleCloseModal} id={buyProduct} />}
     </>
   )
 }
