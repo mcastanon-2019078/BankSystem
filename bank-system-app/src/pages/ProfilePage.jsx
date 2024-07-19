@@ -1,5 +1,6 @@
+import axios from 'axios'
 import queryString from 'query-string'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../Index'
 import { SiberBar } from '../components/Sidebar/SiberBar'
@@ -9,6 +10,25 @@ export const ProfilePage = () => {
 
     const navigate = useNavigate();
     const { dataUser } = useContext(AuthContext)
+    const [account, setAccount] = useState('')
+
+    const getAccounts = async () => {
+        try {
+          const token = localStorage.getItem('token')
+          const { data } = await axios(`http://localhost:3000/account/getByUser/${dataUser.id}`,
+            {
+                headers: {
+                    token
+                }
+            }
+        )
+        setAccount(data.accounts[0]._id)
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    
+      useEffect(() => getAccounts, [])
 
     const location = useLocation()
     const queryParams = queryString.parse(location.search)
@@ -54,6 +74,10 @@ export const ProfilePage = () => {
                             <div className="input_box">
                                 <label htmlFor="inputWorkName">Name work</label>
                                 <input type="text" id="inputWorkName" placeholder="Enter your workname" defaultValue={dataUser.workname} name='workname' readOnly />
+                            </div>
+                            <div className="input_box">
+                                <label htmlFor="inputAccount">No. Account</label>
+                                <input type="text" id="inputAccount" placeholder="Enter your account" defaultValue={account} name='account' readOnly />
                             </div>
                             <div className="input_box" style={{ width: '100%' }}>
                                 <label htmlFor="inputAddress">Address</label>
