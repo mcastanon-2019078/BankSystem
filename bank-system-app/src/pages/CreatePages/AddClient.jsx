@@ -56,7 +56,7 @@ export const AddClient = () => {
           title: 'You must be logged in to perform this action'
         })
       }
-      const response = await axios.post('http://localhost:3000/user/save', form,
+      const response = await axios.post('https://deploy-bank.vercel.app/user/save', form,
         {
           headers: {
             token

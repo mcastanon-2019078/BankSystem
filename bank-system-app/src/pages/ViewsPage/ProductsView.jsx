@@ -17,7 +17,7 @@ export const ProductsView = () => {
   const getTableProducts = async () => {
     try {
       const token = localStorage.getItem('token')
-      const { data } = await axios('http://localhost:3000/product/get',
+      const { data } = await axios('https://deploy-bank.vercel.app/product/get',
         {
           headers: {
             token
@@ -45,7 +45,7 @@ export const ProductsView = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const token = localStorage.getItem('token')
-          const { data } = await axios.delete(`http://localhost:3000/product/delete/${id}`,
+          const { data } = await axios.delete(`https://deploy-bank.vercel.app/product/delete/${id}`,
             {
               headers: {
                 token

@@ -16,7 +16,7 @@ export const ProfileAccountsPage = () => {
 
     const getTableAccountProfile = async () => {
         try {
-            const { data } = await axios(`http://localhost:2880/account/getByUser/${dataUser.id}`)
+            const { data } = await axios(`https://deploy-bank.vercel.app/account/getByUser/${dataUser.id}`)
             setTableProfileAccount(data.accounts)
         } catch (e) {
             console.log(e);

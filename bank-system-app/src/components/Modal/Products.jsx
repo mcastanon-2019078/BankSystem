@@ -24,7 +24,7 @@ export const ModalProduct = ({ isOpen, onClose, update }) => {
   const create = async () => {
     try {
       const token = localStorage.getItem('token')
-      const { data } = await axios.post('http://localhost:3000/product/add', form,
+      const { data } = await axios.post('https://deploy-bank.vercel.app/product/add', form,
         {
           headers: {
             token

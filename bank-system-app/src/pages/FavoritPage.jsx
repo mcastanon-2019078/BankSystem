@@ -16,7 +16,7 @@ export const FavoritPage = () => {
 
     const getTableFavorites = async () => {
         try {
-            const { data } = await axios(`http://localhost:2880/favorite/getById/${dataUser.id}`)
+            const { data } = await axios(`https://deploy-bank.vercel.app/favorite/getById/${dataUser.id}`)
             setTableFavorites(data.favorites)
         } catch (e) {
             console.log(e);
@@ -61,7 +61,7 @@ export const FavoritPage = () => {
                 confirmButtonText: 'Yes, delete it!'
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    const { data } = await axios.delete(`http://localhost:2880/favorite/delete/${id}`);
+                    const { data } = await axios.delete(`https://deploy-bank.vercel.app/favorite/delete/${id}`);
                     getTableFavorites();
                     Swal.fire(
                         data.message,

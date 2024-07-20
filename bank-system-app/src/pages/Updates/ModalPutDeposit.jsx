@@ -15,7 +15,7 @@ export const ModalPutDeposit = ({ isOpen, onClose, datos, update }) => {
         amount: document.getElementById('inputAmount').value
       }
       const token = localStorage.getItem('token');
-      const { data } = await axios.put(`http://localhost:3000/deposit/update/${datos.id}`, updatedDeposit,
+      const { data } = await axios.put(`https://deploy-bank.vercel.app/deposit/update/${datos.id}`, updatedDeposit,
         {
           headers: {
             token

@@ -14,7 +14,7 @@ export const BuyProductPage = () => {
   const getTableProducts = async () => {
     try {
       const token = localStorage.getItem('token')
-      const { data } = await axios('http://localhost:3000/product/get',
+      const { data } = await axios('https://deploy-bank.vercel.app/product/get',
         {
           headers: {
             token

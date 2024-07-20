@@ -23,7 +23,7 @@ export const LoginPage = () => {
     const login = async (e) => {
         try {
             e.preventDefault()
-            const response = await axios.post('http://localhost:3000/user/login', form)
+            const response = await axios.post('https://deploy-bank.vercel.app/user/login', form)
             console.log(response)
             if (response.data.token) {
                 setLoggedIn(true)

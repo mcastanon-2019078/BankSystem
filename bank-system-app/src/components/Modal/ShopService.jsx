@@ -16,7 +16,7 @@ export const ModalShopService = ({ isOpen, onClose, id }) => {
   const getAccounts = async () => {
     try {
       const token = localStorage.getItem('token')
-      const { data } = await axios(`http://localhost:3000/account/getByUser/${dataUser.id}`,
+      const { data } = await axios(`https://deploy-bank.vercel.app/account/getByUser/${dataUser.id}`,
         {
           headers: {
             token
@@ -38,7 +38,7 @@ export const ModalShopService = ({ isOpen, onClose, id }) => {
         account: document.getElementById('inputAccount').value
       }
       const token = localStorage.getItem('token')
-      const { data } = await axios.post('http://localhost:3000/ShopService/buyService', add,
+      const { data } = await axios.post('https://deploy-bank.vercel.app/ShopService/buyService', add,
         {
           headers: {
             token

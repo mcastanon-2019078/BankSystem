@@ -31,7 +31,7 @@ export const HistoryView = () => {
       handleButtonClick(activate2);
       //const { data } = await axios(`http://localhost:3000/historyDeposit/get/${idSearch}`);
       const token = localStorage.getItem('token');
-      const { data } = await axios(`http://localhost:3000/depositH/get/${idSearch}`,
+      const { data } = await axios(`https://deploy-bank.vercel.app/depositH/get/${idSearch}`,
         {
           headers: {
             token
@@ -55,7 +55,7 @@ export const HistoryView = () => {
       setTitle('History Transfer');
       handleButtonClick(activate2);
       const token = localStorage.getItem('token');
-      const { data } = await axios(`http://localhost:3000/transferH/get/${idSearch}`,
+      const { data } = await axios(`https://deploy-bank.vercel.app/transferH/get/${idSearch}`,
         {
           headers: {
             token
@@ -78,7 +78,7 @@ export const HistoryView = () => {
       setTitle('History purchased products');
       handleButtonClick(activate2);
       const token = localStorage.getItem('token');
-      const { data } = await axios(`http://localhost:3000/productsH/get/${idSearch}`,
+      const { data } = await axios(`https://deploy-bank.vercel.app/productsH/get/${idSearch}`,
         {
           headers: {
             token
@@ -101,7 +101,7 @@ export const HistoryView = () => {
       setTitle('History purchased services');
       handleButtonClick(activate2);
       const token = localStorage.getItem('token');
-      const { data } = await axios(`http://localhost:3000/serviceH/get/${idSearch}`,
+      const { data } = await axios(`https://deploy-bank.vercel.app/serviceH/get/${idSearch}`,
         {
           headers: {
             token
@@ -263,10 +263,10 @@ export const HistoryView = () => {
                                     data.map(({ product }, i) => {
                                       return (
                                         <tr key={i}>
-                                          <td>{product?.product.name}</td>
+                                          <td>{product?.product?.name}</td>
                                           <td>{product?.quantity}</td>
-                                          <td>{'Q' + product?.product.price}</td>
-                                          <td>{'Q' + (product?.product.price) * (product?.quantity)}</td>
+                                          <td>{'Q' + product?.product?.price}</td>
+                                          <td>{'Q' + (product?.product?.price) * (product?.quantity)}</td>
                                           <td>{product?.account}</td>
                                         </tr>
                                       )

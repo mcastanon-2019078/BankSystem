@@ -24,7 +24,7 @@ export const ServicesView = () => {
   const getTableServices = async () => {
     try {
       const token = localStorage.getItem('token')
-      const { data } = await axios('http://localhost:3000/service/getServices',
+      const { data } = await axios('https://deploy-bank.vercel.app/service/getServices',
         {
           headers: {
             token
@@ -72,7 +72,7 @@ export const ServicesView = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const token = localStorage.getItem('token');
-          const { data } = await axios.delete(`http://localhost:3000/service/deleteS/${id}`,
+          const { data } = await axios.delete(`https://deploy-bank.vercel.app/service/deleteS/${id}`,
             {
               headers: {
                 token

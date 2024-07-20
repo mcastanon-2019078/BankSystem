@@ -22,7 +22,7 @@ export const ModalService = ({ isOpen, onClose, update }) => {
   const create = async () => {
     try {
       const token = localStorage.getItem('token');
-      const { data } = await axios.post('http://localhost:3000/service/save', form,
+      const { data } = await axios.post('https://deploy-bank.vercel.app/service/save', form,
         {
           headers: {
             token

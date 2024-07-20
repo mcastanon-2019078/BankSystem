@@ -24,7 +24,7 @@ export const AccountView = () => {
   const getTableAccount = async () => {
     try {
       const token = localStorage.getItem('token');
-      const { data } = await axios('http://localhost:3000/account/get',
+      const { data } = await axios('https://deploy-bank.vercel.app/account/get',
         {
           headers: {
             token
@@ -82,7 +82,7 @@ export const AccountView = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const token = localStorage.getItem('token');
-          const { data } = await axios.delete(`http://localhost:3000/account/delete/${id}`,
+          const { data } = await axios.delete(`https://deploy-bank.vercel.app/account/delete/${id}`,
             {
               headers: {
                 token

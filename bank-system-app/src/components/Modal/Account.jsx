@@ -13,7 +13,7 @@ export const ModalAccount = ({ isOpen, onClose, update }) => {
   const getTypeAccount = async () => {
     try {
       const token = localStorage.getItem('token');
-      const { data } = await axios.get('http://localhost:3000/typeAccount/get',
+      const { data } = await axios.get('https://deploy-bank.vercel.app/typeAccount/get',
         {
           headers: {
             token
@@ -29,7 +29,7 @@ export const ModalAccount = ({ isOpen, onClose, update }) => {
   const getUsers = async () => {
     try {
       const token = localStorage.getItem('token');
-      const { data } = await axios.get('http://localhost:3000/user/get',
+      const { data } = await axios.get('https://deploy-bank.vercel.app/user/get',
         {
           headers: {
             token
@@ -50,7 +50,7 @@ export const ModalAccount = ({ isOpen, onClose, update }) => {
       }
       console.log(add);
       const token = localStorage.getItem('token');
-      const { data } = await axios.post('http://localhost:3000/account/add', add,
+      const { data } = await axios.post('https://deploy-bank.vercel.app/account/add', add,
         {
           headers: {
             token

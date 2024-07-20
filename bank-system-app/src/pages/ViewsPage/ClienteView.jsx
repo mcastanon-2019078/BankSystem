@@ -15,7 +15,7 @@ export const ClienteView = () => {
   const getTableClient = async () => {
     try {
       const token = localStorage.getItem('token')
-      const { data } = await axios.get('http://localhost:3000/user/getRoleClient',
+      const { data } = await axios.get('https://deploy-bank.vercel.app/user/getRoleClient',
         {
           headers: {
             token
@@ -57,7 +57,7 @@ export const ClienteView = () => {
       }).then(async (result) => {
         const token = localStorage.getItem('token')
         if (result.isConfirmed) {
-          const { data } = await axios.delete(`http://localhost:3000/user/delete/${id}`,
+          const { data } = await axios.delete(`https://deploy-bank.vercel.app/user/delete/${id}`,
             {
               headers: {
                 token

@@ -22,7 +22,7 @@ export const ModalDeposit = ({ isOpen, onClose, update }) => {
   const create = async () => {
     try {
       const token = localStorage.getItem('token');
-      const { data } = await axios.post('http://localhost:3000/deposit/add', form,
+      const { data } = await axios.post('https://deploy-bank.vercel.app/deposit/add', form,
         {
           headers: {
             token

@@ -24,7 +24,7 @@ export const ModalFavorite = ({ isOpen, onClose, update }) => {
 
     const create = async () => {
         try {
-            const { data } = await axios.post('http://localhost:2880/favorite/add', form);
+            const { data } = await axios.post('https://deploy-bank.vercel.app/favorites/add', form);
             Swal.fire({
                 icon: 'success',
                 title: data.message

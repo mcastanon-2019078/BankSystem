@@ -16,7 +16,7 @@ export const UpdateProfile = () => {
   const getAccount = async () => {
     try {
       const token = localStorage.getItem('token')
-      const { data } = await axios(`http://localhost:3000/user/personalInfo/${id}`,
+      const { data } = await axios(`https://deploy-bank.vercel.app/user/personalInfo/${id}`,
         {
           headers: {
             token
@@ -37,7 +37,7 @@ export const UpdateProfile = () => {
         phone: document.getElementById('inputPhone').value
       }
       const token = localStorage.getItem('token')
-      const { data } = await axios.put(`http://localhost:3000/user/personalInfo/${id}`, updatedAccountUser,
+      const { data } = await axios.put(`https://deploy-bank.vercel.app/user/personalInfo/${id}`, updatedAccountUser,
         {
           headers: {
             token

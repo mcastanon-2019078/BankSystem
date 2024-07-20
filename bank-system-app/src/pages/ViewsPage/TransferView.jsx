@@ -13,7 +13,7 @@ export const TransferView = () => {
 
     const getTableTransfer = async () => {
         try {
-            const { data } = await axios('http://localhost:2880/transfer/get');
+            const { data } = await axios('https://deploy-bank.vercel.app/transfer/get');
             setTransfer(data.transfers);
             setTableTransfer(data.transfers);
         } catch (e) {

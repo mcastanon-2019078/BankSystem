@@ -10,7 +10,7 @@ export const UpdateDeposit = () => {
 
     const getTableDeposit = async () => {
         try {
-            const { data } = await axios(`http://localhost:2880/deposit/getById/${id}`);
+            const { data } = await axios(`https://deploy-bank.vercel.app/deposit/getById/${id}`);
             setTableDeposit(data.deposit)
         } catch (e) {
             console.log(e);
@@ -23,7 +23,7 @@ export const UpdateDeposit = () => {
                 /* accountReq: document.getElementById('inputReq').value, */
                 amount: document.getElementById('inputAmount').value
             }
-            const { data } = await axios.put(`http://localhost:2880/deposit/update/${id}`, updatedDeposit);
+            const { data } = await axios.put(`https://deploy-bank.vercel.app/deposit/update/${id}`, updatedDeposit);
             Swal.fire({
                 icon: 'success',
                 title: data.message

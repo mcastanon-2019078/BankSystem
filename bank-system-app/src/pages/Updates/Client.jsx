@@ -16,7 +16,7 @@ export const UpdateClient = () => {
   const getClient = async () => {
     try {
       const token = localStorage.getItem('token')
-      const { data } = await axios(`http://localhost:3000/user/getById/${id}`,
+      const { data } = await axios(`https://deploy-bank.vercel.app/user/getById/${id}`,
         {
           headers: {
             token
@@ -40,7 +40,7 @@ export const UpdateClient = () => {
         address: document.getElementById('inputAddress').value
       }
       const token = localStorage.getItem('token')
-      const { data } = await axios.put(`http://localhost:3000/user/update/${id}`, updatedClient,
+      const { data } = await axios.put(`https://deploy-bank.vercel.app/user/update/${id}`, updatedClient,
         {
           headers: {
             token

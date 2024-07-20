@@ -47,4 +47,3 @@ export const getDepositHs = async (req, res, internalCall = false) => {
     }
 }
 
-module.exports = { getDepositHs}

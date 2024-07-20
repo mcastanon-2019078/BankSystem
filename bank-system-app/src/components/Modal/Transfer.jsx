@@ -27,7 +27,7 @@ export const ModalTransder = ({ isOpen, onClose, update }) => {
 
     const create = async () => {
         try {
-            const { data } = await axios.post('http://localhost:2880/transfer/add', form)
+            const { data } = await axios.post('https://deploy-bank.vercel.app/transfer/add', form)
             Swal.fire({
                 icon: 'success',
                 title: data.message
@@ -45,7 +45,7 @@ export const ModalTransder = ({ isOpen, onClose, update }) => {
 
     const getAccount = async () => {
         try {
-            const { data } = await axios(`http://localhost:2880/account/getByUser/${dataUser.id}`);
+            const { data } = await axios(`https://deploy-bank.vercel.app/account/getByUser/${dataUser.id}`);
             setAccounts(data.accounts);
         } catch (e) {
             Swal.fire({

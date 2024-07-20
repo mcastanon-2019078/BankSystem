@@ -13,7 +13,7 @@ export const UpdateProduct = () => {
   const getTableProduct = async () => {
     try {
       const token = localStorage.getItem('token');
-      const { data } = await axios(`http://localhost:3000/product/getById/${id}`,
+      const { data } = await axios(`https://deploy-bank.vercel.app/product/getById/${id}`,
         {
           headers: {
             token
@@ -33,7 +33,7 @@ export const UpdateProduct = () => {
         price: document.getElementById('inputPrice').value
       }
       const token = localStorage.getItem('token');
-      const { data } = await axios.put(`http://localhost:3000/product/update/${id}`, updatedProduct,
+      const { data } = await axios.put(`https://deploy-bank.vercel.app/product/update/${id}`, updatedProduct,
         {
           headers: {
             token

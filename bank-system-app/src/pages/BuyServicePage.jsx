@@ -31,7 +31,7 @@ export const BuyServicePage = () => {
   const getServices = async () => {
     try {
       const token = localStorage.getItem('token')
-      const { data } = await axios('http://localhost:3000/service/getServices',
+      const { data } = await axios('https://deploy-bank.vercel.app/service/getServices',
         {
           headers: {
             token
